@@ -510,7 +510,12 @@ function openPanel(id) {
   var isC = d.l === 0, max = d.mt;
   var share = Math.round(100 * d.ft / (d.ft + d.dt));
   var ja = function (a) { var t = sum(a); return t ? Math.round(100 * (a[6] + a[7]) / t) : 0; };
-  var pat = function (p, cm) { return p ? esc(p) + (cm ? ', centred in ' + esc(cm) : '') : '<span class="muted">too few nights</span>'; };
+  /* the season centre is named only when it is one of the busiest months reaching 75% (flags) and the year has a season:
+     for a year with two peaks the circular centre can fall in a quiet month (e.g. Sud-Vest Oltenia: December + August -> October) */
+  var pat = function (p, cm, flags) {
+    var show = cm && flags && flags[MN.indexOf(cm)] === 1 && p !== 'Mild or no season';
+    return p ? esc(p) + (show ? ', centred in ' + esc(cm) : '') : '<span class="muted">too few nights</span>';
+  };
   var strip = function (label, m, flags, col) { return '<div></div><div class="row12" style="height:14px">' + squares(flags, col) + '</div><b class="small" aria-label="' + label + ': ' + m + ' months">' + m + '</b>'; };
   var regs = isC ? regsOf(d.c) : [];
   var fc = mcol(d.fm), hasD = !!(d.d && d.d.length);
@@ -535,8 +540,8 @@ function openPanel(id) {
     strip('Foreign', d.fm, d.fs, fc) + (hasD && d.ds && d.dm != null ? strip('Domestic', d.dm, d.ds, 'var(--when)') : '') +
     '<div></div><div class="row12 tiny muted">' + letters() + '</div><div></div>' +
     '</div><div class="tiny muted" style="display:flex;align-items:center;gap:5px;margin-top:6px"><i class="sq" style="width:8px;height:8px;background:var(--when)"></i>Busiest months to reach 75%</div></div>';
-  h += '<div style="border-top:1px solid var(--rule);padding-top:10px"><h3 style="font-size:16px;margin-bottom:6px">Season type</h3><div class="facts" style="border-top:0;padding-top:0"><span>Foreign guests</span><span>' + pat(d.fok && d.fp, d.fcm) + '</span>' +
-    '<span>Domestic guests</span><span>' + pat(d.dok && d.dp, d.dcm) + '</span>' +
+  h += '<div style="border-top:1px solid var(--rule);padding-top:10px"><h3 style="font-size:16px;margin-bottom:6px">Season type</h3><div class="facts" style="border-top:0;padding-top:0"><span>Foreign guests</span><span>' + pat(d.fok && d.fp, d.fcm, d.fs) + '</span>' +
+    '<span>Domestic guests</span><span>' + pat(d.dok && d.dp, d.dcm, d.ds) + '</span>' +
     '<span>July–August</span><span>' + ja(d.f) + '% of foreign nights, ' + (d.d ? ja(d.d) + '% of domestic' : '') + '</span></div></div><div class="facts">' +
     (d.tc ? '<span>Foreign guests’ year <button class="info" data-info="te" aria-label="About foreign timing">i</button></span><span><span class="seg" role="img" aria-label="' + EFFW[d.tc] + '">' + [['Reduces', 'Flatter'], ['No clear effect', 'About the same'], ['Adds', 'Sharper']].map(function (k) { return '<span class="' + (k[0] === d.tc ? 'on' : '') + '">' + k[1] + '</span>'; }).join('') + '</span> <span class="small" style="margin-left:6px">' + signed(d.te, 3) + ' Gini</span></span>' : '') +
     (!isC && d.co != null ? '<span>Geography</span><span>' + [d.co + '% coastal', d.ci + '% in cities', d.ru + '% rural', d.mo ? d.mo + '% mountain' : '', d.is ? d.is + '% island' : ''].filter(Boolean).join(' · ') + '</span>' : '') +
