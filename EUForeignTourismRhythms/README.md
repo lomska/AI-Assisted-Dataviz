@@ -8,7 +8,7 @@ When do foreign guests come to Europe's regions?
 How concentrated are their seasons?
 Do they make a region's year more or less seasonal than domestic guests do?
 
-An interactive page exploring these questions for 34 countries (EU-27, EFTA, North Macedonia, Albania and Serbia) and their NUTS 2 regions, average of 2023 and 2024. All figures describe nights in tourist accommodation: hotels, holiday and short-stay accommodation, and campsites.
+An interactive page exploring these questions for 34 countries (EU-27, EFTA, North Macedonia, Albania and Serbia) and their NUTS-2 regions, average of 2023 and 2024. All figures describe nights in tourist accommodation: hotels, holiday and short-stay accommodation, and campsites.
 
 The folder contains three notebooks:
 
