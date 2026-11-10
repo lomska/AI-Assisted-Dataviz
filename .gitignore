@@ -20,4 +20,7 @@ desktop.ini
 ~$*
 
 #Kaggle pics
-kaggle_cover.png
+kaggle_cover*.png
+
+# Page build spec (local only)
+EUForeignTourismRhythms/PAGE_SPEC.md
